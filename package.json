@@ -13,11 +13,18 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "~17.1.1",
-    "express": "~4.17.1"
+    "express": "~4.17.1",
+    "mongoose": "~5.9.10"
   },
   "devDependencies": {
     "jest": "~25.4.0",
+    "mongodb-memory-server": "~6.5.2",
     "nodemon": "~2.0.3",
     "supertest": "~4.0.2"
+  },
+  "jest": {
+    "globalSetup": "./utils/testSetup.js",
+    "globalTeardown": "./utils/testTeardown.js",
+    "testEnvironment": "node"
   }
 }
