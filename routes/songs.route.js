@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const songController = require("../controllers/song.controller");
-const { checkJSON } = require("../utils/middlewares");
+const { checkJSON, protectRoute } = require("../utils/middlewares");
 
 router.use(express.json());
 
@@ -22,10 +22,10 @@ router.param("id", (req, res, next, id) => {
   next();
 });
 
-router.post("/", checkJSON, songController.createSong);
+router.post("/", protectRoute, checkJSON, songController.createSong);
 router.get("/", songController.findAllSongs);
 router.get("/:id", songController.findOneSong);
-router.put("/:id", songController.findOneSongandUpdate);
-router.delete("/:id", songController.deleteSong);
+router.put("/:id", protectRoute, songController.findOneSongandUpdate);
+router.delete("/:id", protectRoute, songController.deleteSong);
 
 module.exports = router;

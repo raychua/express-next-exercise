@@ -1,7 +1,6 @@
 const app = require("./playlist");
-const PORT = 3000;
+const env = require("./env/env.js");
 
-
-const server = app.listen(PORT, () => {
-  console.log(`Playlist API running on http://localhost:${PORT}`);
+const server = app.listen(process.env.PORT, () => {
+  console.log(`Playlist API running on http://localhost:${process.env.PORT}`);
 });

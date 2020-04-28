@@ -1,6 +1,5 @@
 const express = require("express");
 const api = express.Router();
-const PORT = 3000;
 
 const songsRouter = require("./routes/songs.route");
 const moviesRouter = require("./routes/movies.route");
