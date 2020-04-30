@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const env = require("../env/env");
 
 const checkJSON = (req, res, next) => {
   if (req.headers["content-type"] !== "application/json") {

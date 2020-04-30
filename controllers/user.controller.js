@@ -41,7 +41,7 @@ const userlogin = async (req, res, next) => {
 
     const cookieInfo = createJWTToken(founduser.userID);
     console.log("cookieInfo.exp:", cookieInfo.exp);
-    if (process.env.ENV === "DEV") {
+    if (process.env.NODE_ENV === "development") {
       res.cookie("loginToken", cookieInfo.token, {
         expires: cookieInfo.exp,
         httpOnly: true, // client-side js cannot access cookie info

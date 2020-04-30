@@ -2,7 +2,6 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const apiVersion1 = require("./playlist_v1");
 const apiVersion2 = require("./playlist_v2");
-const env = require("./env/env");
 
 //require("./utils/SongsDB");
 require("./utils/moviesDB");
