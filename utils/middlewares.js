@@ -10,14 +10,15 @@ const checkJSON = (req, res, next) => {
 const protectRoute = (req, res, next) => {
   try {
     console.log("in protectRoute");
-    const cookieName = "token";
-    const tokenCookie = req.cookies[cookieName];
+    const cookieName = "loginToken";
+    const tokenCookie = req.signedCookies[cookieName];
     if (!tokenCookie) {
       const notAuthorisedError = new Error("You are not logged in");
       notAuthorisedError.statusCode = 401;
       throw notAuthorisedError;
     }
     req.user = jwt.verify(tokenCookie, process.env.JWT_SECRET_KEY);
+    //req.user = jwt.verify(tokenCookie, "s");
     next();
   } catch (err) {
     next(err);

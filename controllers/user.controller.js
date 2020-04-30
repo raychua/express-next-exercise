@@ -25,11 +25,15 @@ const userlogin = async (req, res, next) => {
     console.log("in userlogin");
     let user = {};
     user.userID = req.body.userID;
+    let validPassword = false;
     const founduser = await User.findOne(user);
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      founduser.password
-    );
+
+    if (founduser) {
+      validPassword = await bcrypt.compare(
+        req.body.password,
+        founduser.password
+      );
+    }
     if (!founduser || !validPassword) {
       const invalidLogin = new Error("Incorrect user name or password");
       throw invalidLogin;
@@ -38,26 +42,29 @@ const userlogin = async (req, res, next) => {
     const cookieInfo = createJWTToken(founduser.userID);
     console.log("cookieInfo.exp:", cookieInfo.exp);
     if (process.env.ENV === "DEV") {
-      res.cookie("token", cookieInfo.token, {
+      res.cookie("loginToken", cookieInfo.token, {
         expires: cookieInfo.exp,
         httpOnly: true, // client-side js cannot access cookie info
+        signed: true,
       });
     } else {
-      res.cookie("token", cookieInfo.token, {
+      res.cookie("loginToken", cookieInfo.token, {
         expires: cookieInfo.exp,
         httpOnly: true, // client-side js cannot access cookie info
         secure: true, // use HTTPS
+        signed: true,
       });
     }
     res.status(200).json("You have logged in successfully");
   } catch (err) {
+    res.clearCookie("loginToken");
     next(err);
   }
 };
 
 const logout = async (req, res, next) => {
   try {
-    res.clearCookie("token").send("You have logged out successfully");
+    res.clearCookie("loginToken").send("You have logged out successfully");
   } catch (err) {
     next(err);
   }
